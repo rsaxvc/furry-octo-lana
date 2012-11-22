@@ -52,56 +52,55 @@ static void quit_tutorial( int code )
 
 static void handle_key_down( SDL_keysym* keysym )
 {
-    switch( keysym->sym ) {
-    case SDLK_ESCAPE:
-        quit_tutorial( 0 );
-        break;
+switch( keysym->sym )
+	{
+	case SDLK_ESCAPE:
+		quit_tutorial( 0 );
+		break;
 
-    default:
-        break;
-    }
-
+	default:
+		break;
+	}
 }
 
 static void handle_key_up( SDL_keysym* keysym )
 {
 switch( keysym->sym )
 	{
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 static void process_events( void )
 {
-    /* Our SDL event placeholder. */
-    SDL_Event event;
+/* Our SDL event placeholder. */
+SDL_Event event;
 
-    /* Grab all the events off the queue. */
-    while( SDL_PollEvent( &event ) ) {
-
-        switch( event.type ) {
-        case SDL_KEYUP:
-            handle_key_up( &event.key.keysym );
+/* Grab all the events off the queue. */
+while( SDL_PollEvent( &event ) )
+	{
+	switch( event.type )
+		{
+		case SDL_KEYUP:
+			handle_key_up( &event.key.keysym );
 			break;
 
-        case SDL_KEYDOWN:
-            /* Handle key presses. */
-            handle_key_down( &event.key.keysym );
-            break;
+		case SDL_KEYDOWN:
+			/* Handle key presses. */
+			handle_key_down( &event.key.keysym );
+			break;
 
-        case SDL_QUIT:
-            /* Handle quit requests (like Ctrl-c). */
-            quit_tutorial( 0 );
-            break;
-        }
-    }
+		case SDL_QUIT:
+			/* Handle quit requests (like Ctrl-c). */
+			quit_tutorial( 0 );
+			break;
+		}
+	}
 }
 
 static void draw_screen( const draw_state & state, double time )
 {
-//printf("draw:%f - %f\n",get_time(), time);
-
 /* Clear the color and depth buffers. */
 glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 glError();
