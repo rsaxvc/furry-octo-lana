@@ -31,13 +31,6 @@
 int score = 0;
 size_t update_index;
 
-enum
-	{
-	OBJECT_UPDATE_NOTYET,  //not updated yet
-	OBJECT_UPDATE_CURRENT, //updating now(id==local_id())
-	OBJECT_UPDATE_DONE     //update has happened
-	};
-
 timer all_the_time(true);
 
 template <typename T>
