@@ -13,6 +13,7 @@ all: .depend missile
 -include .depend
 
 missile:\
+	draw_manager.o\
 	explosion.o\
 	game_state.o\
 	timer.o\

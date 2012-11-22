@@ -1,8 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#define MINICHUNK 8
-#define PHYSICS_TIMESTEP 1.0
-#define DRAW_TIMESTEP    .5
+#define PHYSICS_TIMESTEP .05
+#define DRAW_TIMESTEP    .05
 
 #endif
