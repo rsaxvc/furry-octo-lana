@@ -9,12 +9,15 @@ class explosion : public entity
     {
 	private:
 		long double start_time;
+		float radius;
 
     public:
-        explosion( const position & p );
-        virtual ~explosion();
+		void calcState( void );
+		explosion( const position & p );
+		virtual ~explosion();
 		inline entity_class getClass(){return CLASS_EXPLOSION;};
-		float getTopSpeed();
+		float getTopSpeed(){return 0.0f;};
+		inline const float & getRadius(){return radius;};
 		bool complete( void );
     };
 

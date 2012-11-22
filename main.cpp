@@ -290,7 +290,7 @@ int main( void )
 		if( ctr % MINICHUNK == 0 )
 			{
 			p.x=rand()%GRID_W;
-			p.y = GRID_H-1;
+			p.y = GRID_H-3;
 
 	        process_events();//Process incoming events.
 

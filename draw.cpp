@@ -1,6 +1,7 @@
 #include <cassert>
 #include <cstdio>
-
+#include <cmath>
+#include <cstring>
 
 #include <stddef.h>
 
@@ -75,6 +76,26 @@ line( v4, v6 );
 
 static void draw_explosion( const explosion_state & state, float time_fract )
 {
+#define line( _pt1,_pt2 ) glVertex3fv( _pt1 );glVertex3fv( _pt2 )
+float r = state.r + time_fract * state.dr;
+float dAng= M_PI/20;
+
+GLfloat center[] = { state.center.x, state.center.y, 0.0f };
+GLfloat vprev[] = { state.center.x+r, state.center.y, 0.0f };
+
+for( float ang = 0.0f; ang < M_PI*2 + dAng; ang += dAng )
+	{
+	GLfloat vedge[] =
+		{
+		state.center.x + r * cosf( ang ),
+		state.center.y + r * sinf( ang ),
+		0.0f };
+	line( center, vedge );
+	line( vprev, vedge );
+	memcpy( vprev, vedge, sizeof( vprev ) );
+	assert( sizeof( vprev ) == sizeof( vedge ) );
+	}
+#undef line
 }
 
 static void draw_building( const building_state & state )

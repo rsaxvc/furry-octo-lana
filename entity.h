@@ -30,7 +30,7 @@ class entity
 		virtual float getSpeed();
 		virtual float getTopSpeed()=0;
 
-		void calcState();
+		virtual void calcState();
 
 		virtual void setVel( const velocity & vel );
 	};

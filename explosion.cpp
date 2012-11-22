@@ -15,20 +15,19 @@
 	} \
 }
 
-float explosion::getTopSpeed()
-{
-//these don't move
-return 0;
-}
-
 explosion::explosion(const position & p)
 {
 vel.dx = 0;
 vel.dy = 0;
 
 pos = p;
-
 start_time = get_time();
+}
+
+void explosion::calcState( void )
+{
+#define SPEED 2
+radius = ( get_time() - start_time ) * SPEED;
 }
 
 #define LIFETIME 2

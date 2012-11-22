@@ -43,6 +43,15 @@ for( size_t i = 0; i < missiles.size(); ++i )
 	state.missiles.push_back(s);
 	}
 
+for( size_t i = 0; i < explosions.size(); ++i )
+	{
+	explosion_state s;
+	s.center = explosions[i]->getPos();
+	s.r  = 2;
+	s.dr = 2;
+	state.explosions.push_back(s);
+	}
+
 state.framestamp=framecount;
 framecount++;
 }
@@ -162,4 +171,16 @@ for( size_t i = bullets.size(); i > 0; --i )
 
 void game_state::check_collisions( void )
 {
+for( size_t i = explosions.size(); i > 0; --i )
+	{
+	position explosion_pos = explosions[i-1]->getPos();
+	float explosion_radius = explosions[i-1]->getRadius();
+	for( size_t j = missiles.size(); j > 0; --j )
+		{
+		if( explosion_pos.dist( missiles[ j - 1 ]->getPos() ) < explosion_radius )
+			{
+			destroy_missile( j - 1 );
+			}
+		}
+	}
 }
