@@ -47,8 +47,8 @@ for( size_t i = 0; i < explosions.size(); ++i )
 	{
 	explosion_state s;
 	s.center = explosions[i]->getPos();
-	s.r  = 2;
-	s.dr = 2;
+	s.r  = explosions[i]->getRadius();
+	s.dr = explosions[i]->getRadiusRate();
 	state.explosions.push_back(s);
 	}
 

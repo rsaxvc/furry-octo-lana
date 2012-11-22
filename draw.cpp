@@ -72,16 +72,21 @@ static void draw_explosion( const explosion_state & state, float dtime )
 #define line( _pt1,_pt2 ) glVertex3fv( _pt1 );glVertex3fv( _pt2 )
 float r = state.r + dtime * state.dr;
 float dAng= M_PI/20;
+float spin = dtime * M_PI * 2 / 4;
 
 GLfloat center[] = { state.center.x, state.center.y, 0.0f };
-GLfloat vprev[] = { state.center.x+r, state.center.y, 0.0f };
 
 for( float ang = 0.0f; ang < M_PI*2 + dAng; ang += dAng )
 	{
+	GLfloat vprev[] =
+		{
+		state.center.x + r * cosf( ang + spin - dAng ),
+		state.center.y + r * sinf( ang + spin - dAng ),
+		0.0f };
 	GLfloat vedge[] =
 		{
-		state.center.x + r * cosf( ang ),
-		state.center.y + r * sinf( ang ),
+		state.center.x + r * cosf( ang + spin ),
+		state.center.y + r * sinf( ang + spin ),
 		0.0f };
 	line( center, vedge );
 	line( vprev, vedge );
