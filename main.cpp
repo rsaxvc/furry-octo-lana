@@ -32,17 +32,6 @@ size_t update_index;
 
 timer all_the_time(true);
 
-template <typename T>
-static T clamp( const T & val, const T & min, const T & max )
-{
-assert( max > min );
-
-if( val > max )return max;
-if( val < min )return min;
-return val;
-}
-
-
 void quit_tutorial( int code )
 {
     draw_manager_stop();
