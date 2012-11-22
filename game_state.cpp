@@ -29,8 +29,8 @@ for( size_t i = 0; i < bullets.size(); ++i )
 	{
 	bullet_state s;
 	s.start_pos = bullets[i]->getStartPos();
-	s.last_pos = bullets[i]->getLastPos();
-	s.next_pos = bullets[i]->getPos();
+	s.pos = bullets[i]->getPos();
+	s.vel = bullets[i]->getVel();
 	state.bullets.push_back(s);
 	}
 
@@ -38,8 +38,8 @@ for( size_t i = 0; i < missiles.size(); ++i )
 	{
 	missile_state s;
 	s.start_pos = missiles[i]->getStartPos();
-	s.last_pos = missiles[i]->getLastPos();
-	s.next_pos = missiles[i]->getPos();
+	s.pos = missiles[i]->getPos();
+	s.vel = missiles[i]->getVel();
 	state.missiles.push_back(s);
 	}
 

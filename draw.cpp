@@ -18,9 +18,9 @@
     } \
 }
 
-static void draw_bullet( const bullet_state & state, double time_fract )
+static void draw_bullet( const bullet_state & state, double dtime )
 {
-position f( state.last_pos, state.next_pos, time_fract );
+position f( state.pos, state.vel, dtime );
 #define LEN .2f
 #define line( _pt1,_pt2 ) glVertex3fv( _pt1 );glVertex3fv( _pt2 )
 GLfloat v0[] = { f.x-LEN, f.y-LEN, 0.0f };
@@ -33,11 +33,7 @@ line( v1, v2 );
 line( v2, v3 );
 line( v3, v0 );
 
-position f2( state.last_pos, state.next_pos, time_fract + .3 );
 GLfloat v4[] = {  f.x,  f.y, 0.0f };
-GLfloat v5[] = { f2.x, f2.y, 0.0f };
-line( v4, v5 );
-
 GLfloat v6[] = { state.start_pos.x, state.start_pos.y, 0.0f };
 line( v4, v6 );
 
@@ -46,9 +42,9 @@ line( v4, v6 );
 }
 
 
-static void draw_missile( const missile_state & state, double time_fract )
+static void draw_missile( const missile_state & state, double dtime )
 {
-position f( state.last_pos, state.next_pos, time_fract );
+position f( state.pos, state.vel, dtime );
 
 #define LEN .4f
 #define line( _pt1,_pt2 ) glVertex3fv( _pt1 );glVertex3fv( _pt2 )
@@ -62,10 +58,7 @@ line( v1, v2 );
 line( v2, v3 );
 line( v3, v0 );
 
-position f2( state.last_pos, state.next_pos, time_fract + .3 );
 GLfloat v4[] = {  f.x,  f.y, 0.0f };
-GLfloat v5[] = { f2.x, f2.y, 0.0f };
-line( v4, v5 );
 
 GLfloat v6[] = { state.start_pos.x, state.start_pos.y, 0.0f };
 line( v4, v6 );
@@ -74,10 +67,10 @@ line( v4, v6 );
 #undef line
 }
 
-static void draw_explosion( const explosion_state & state, float time_fract )
+static void draw_explosion( const explosion_state & state, float dtime )
 {
 #define line( _pt1,_pt2 ) glVertex3fv( _pt1 );glVertex3fv( _pt2 )
-float r = state.r + time_fract * state.dr;
+float r = state.r + dtime * state.dr;
 float dAng= M_PI/20;
 
 GLfloat center[] = { state.center.x, state.center.y, 0.0f };
@@ -119,11 +112,8 @@ line( v3, v0 );
 #undef line
 }
 
-void draw( const draw_state & state, double time_fract )
+void draw( const draw_state & state, double dtime )
 {
-assert( time_fract >= 0.0 );
-assert( time_fract <= 1.0 );
-
 glPushMatrix();
 glError();
 
@@ -136,17 +126,17 @@ for( size_t i = 0; i < state.buildings.size(); ++i )
 
 for( size_t i = 0; i < state.missiles.size(); ++i )
 	{
-	draw_missile( state.missiles[i], time_fract );
+	draw_missile( state.missiles[i], dtime );
 	}
 
 for( size_t i = 0; i < state.bullets.size(); ++i )
 	{
-	draw_bullet( state.bullets[i], time_fract );
+	draw_bullet( state.bullets[i], dtime );
 	}
 
 for( size_t i = 0; i < state.explosions.size(); ++i )
 	{
-	draw_explosion( state.explosions[i], time_fract );
+	draw_explosion( state.explosions[i], dtime );
 	}
 
 glEnd();

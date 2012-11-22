@@ -2,21 +2,21 @@
 #define DRAW_STATE_H
 
 #include "position.h"
-
+#include "velocity.h"
 #include <vector>
 
 struct missile_state
 	{
 	position start_pos;
-	position last_pos;
-	position next_pos;
+	position pos;
+	velocity vel;
 	};
 
 struct bullet_state
 	{
 	position start_pos;
-	position last_pos;
-	position next_pos;
+	position pos;
+	velocity vel;
 	};
 
 struct building_state

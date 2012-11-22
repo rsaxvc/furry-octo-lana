@@ -4,6 +4,8 @@
 #include <cmath>
 #include <cstdlib>
 
+#include "velocity.h"
+
 struct position
 	{
 	float x;
@@ -30,6 +32,12 @@ struct position
 
 		x = start.x + ( interp * dx );
 		y = start.y + ( interp * dy );
+		}
+
+	position( const position & start, const velocity & vel, double dtime )
+		{
+		x = start.x + ( dtime * vel.dx );
+		y = start.y + ( dtime * vel.dy );
 		}
 
 	float normalized_dot_product3( const position & end, const position & pt3 )

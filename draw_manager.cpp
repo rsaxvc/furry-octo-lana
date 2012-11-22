@@ -82,6 +82,7 @@ SDL_mutex  * lock;
 int render_func( void *unused )
 {
 draw_state local_state;
+long double local_time;
     /* Information about the current video settings. */
     const SDL_VideoInfo* info = NULL;
     /* Dimensions of our window. */
@@ -180,17 +181,19 @@ setup_opengl( 800, 600 );
 periodic_controller periodic( DRAW_TIMESTEP );
 do
 	{
+	static int frames;
 	SDL_mutexP( lock );
 	local_state = state;
+	local_time = state_date;
 	SDL_mutexV( lock );
-	draw_screen( local_state, 0 );
-	printf("draw\n");
+	draw_screen( local_state, get_time() - local_time );
+	printf("draw:%f FPS\n", (double)(frames/get_time()) );
+	frames++;
 	}while( !stop_running && periodic.wait() );
 
 
 return( 0 );
 }
-
 
 void draw_manager_start( void )
 {
