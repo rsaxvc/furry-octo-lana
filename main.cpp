@@ -110,9 +110,6 @@ int main( void )
 	position p;
 	const position g( GRID_W / 2, 0 );
 
-	p.x=rand()%GRID_W;
-	p.y = GRID_H-1;
-
 	fps_filter fps;
 
 	//main loop
