@@ -22,7 +22,7 @@ return SPEED;
 
 bullet::bullet(const position & start, const position & end )
 {
-pos_start = start;
+start_pos = start;
 pos = start;
 
 vel.dx = cos( atan2( start.y - end.y, start.x - end.x ) ) * SPEED;
@@ -32,7 +32,7 @@ pos_end = end;
 
 bool bullet::target_reached( void )
 {
-return pos_start.normalized_dot_product3( pos_end, pos ) > 1.0;
+return start_pos.normalized_dot_product3( pos_end, pos ) > 1.0;
 }
 
 bullet::~bullet()

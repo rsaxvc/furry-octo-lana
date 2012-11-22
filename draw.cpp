@@ -37,6 +37,9 @@ GLfloat v4[] = {  f.x,  f.y, 0.0f };
 GLfloat v5[] = { f2.x, f2.y, 0.0f };
 line( v4, v5 );
 
+GLfloat v6[] = { state.start_pos.x, state.start_pos.y, 0.0f };
+line( v4, v6 );
+
 #undef LEN
 #undef line
 }
@@ -62,6 +65,9 @@ position f2( state.last_pos, state.next_pos, time_fract + .3 );
 GLfloat v4[] = {  f.x,  f.y, 0.0f };
 GLfloat v5[] = { f2.x, f2.y, 0.0f };
 line( v4, v5 );
+
+GLfloat v6[] = { state.start_pos.x, state.start_pos.y, 0.0f };
+line( v4, v6 );
 
 #undef LEN
 #undef line

@@ -16,12 +16,14 @@ enum entity_class
 class entity
 	{
 	protected:
+		position start_pos;
 		position last_pos;
 		position pos;
 		velocity vel;
 
 	public:
 		virtual entity_class getClass()=0;
+		inline const position & getStartPos() { return start_pos; };
 		inline const position & getPos() { return pos; };
 		inline const position & getLastPos() { return last_pos; };
 		inline const velocity & getVel(){ return vel;};

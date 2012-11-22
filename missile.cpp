@@ -25,6 +25,7 @@ missile::missile(const position & p)
 vel.dx = (float)(rand()%5)/5 - .5;
 vel.dy = -.5;
 
+start_pos = p;
 pos = p;
 }
 
