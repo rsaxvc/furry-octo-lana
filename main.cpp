@@ -25,6 +25,8 @@
 #include "draw_state.h"
 #include "game_state.h"
 
+#include "fps_filter.h"
+
 int score = 0;
 size_t update_index;
 
@@ -111,6 +113,8 @@ int main( void )
 	p.x=rand()%GRID_W;
 	p.y = GRID_H-1;
 
+	fps_filter fps;
+
 	//main loop
 	do
 		{
@@ -138,8 +142,10 @@ int main( void )
 		gstate.build_draw( state );
 
 		draw_manager_update( state );
-		printf("physics\n");
-    	}while( periodic.wait() );
+
+		fps.record_event();
+		printf("physics:%f FPS\n", (double)fps.read() );
+		}while( periodic.wait() );
 
     /*
      * EXERCISE:

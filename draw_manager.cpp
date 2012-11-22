@@ -12,6 +12,8 @@
 #include "periodic_controller.h"
 #include "game.h"
 
+#include "fps_filter.h"
+
 #define glError() {GLenum err = glGetError();while (err != GL_NO_ERROR) {fprintf(stderr, "glError: %s caught at %s:%u\n",(char *)gluErrorString(err), __FILE__, __LINE__);err = glGetError();}}
 
 bool stop_running = false;
@@ -179,16 +181,17 @@ long double local_time;
 
 setup_opengl( 800, 600 );
 periodic_controller periodic( DRAW_TIMESTEP );
+
+fps_filter fps;
 do
 	{
-	static int frames;
 	SDL_mutexP( lock );
 	local_state = state;
 	local_time = state_date;
 	SDL_mutexV( lock );
 	draw_screen( local_state, get_time() - local_time );
-	printf("draw:%f FPS\n", (double)(frames/get_time()) );
-	frames++;
+	fps.record_event();
+	printf("draw:%f FPS\n", (double)fps.read() );
 	}while( !stop_running && periodic.wait() );
 
 
