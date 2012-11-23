@@ -105,9 +105,16 @@ int main( void )
 	do
 		{
 		p.x=rand()%GRID_W;
-		p.y = GRID_H-3;
+		p.y = GRID_H-(rand()%(GRID_H/2) );
 
-        process_events();//Process incoming events.
+		process_events();//Process incoming events.
+
+		static long double last_bullet_time = get_time();
+		if( get_time() - last_bullet_time > .1 )
+			{
+			gstate.spawn_bullet( g, p );
+			last_bullet_time = get_time();
+			}
 
 		static long double last_missile_time = get_time();
 		if( get_time() - last_missile_time > 1.0 )
@@ -115,8 +122,6 @@ int main( void )
 			gstate.spawn_missile( p );
 			last_missile_time = get_time();
 			}
-
-		gstate.spawn_bullet( g, p );
 
 		gstate.check_explosions();
 		gstate.check_collisions();
