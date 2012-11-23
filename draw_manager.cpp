@@ -151,6 +151,8 @@ long double local_time;
     SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
 
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+//VSYNC	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL,0);
+
     /*
      * We want to request that SDL provide us
      * with an OpenGL window, in a fullscreen
