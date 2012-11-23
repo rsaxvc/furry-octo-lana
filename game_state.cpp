@@ -179,6 +179,7 @@ for( size_t i = explosions.size(); i > 0; --i )
 		{
 		if( explosion_pos.dist( missiles[ j - 1 ]->getPos() ) < explosion_radius )
 			{
+			spawn_explosion( missiles[ j - 1 ]->getPos() );
 			destroy_missile( j - 1 );
 			}
 		}
