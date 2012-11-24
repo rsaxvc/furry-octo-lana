@@ -71,7 +71,7 @@ target.y = mouse_y;
 
 static long double last_bullet_time = get_time();
 
-const position gun( GRID_W / 2, 0 );
+static const position gun( GRID_W / 2, 0 );
 if( get_time() - last_bullet_time > .1 )
 	{
 	gstate.spawn_bullet( gun, target );
