@@ -11,7 +11,7 @@
 #include "main.h"
 #include "periodic_controller.h"
 #include "game.h"
-
+#include "draw_manager.h"
 #include "fps_filter.h"
 
 #define glError() {GLenum err = glGetError();while (err != GL_NO_ERROR) {fprintf(stderr, "glError: %s caught at %s:%u\n",(char *)gluErrorString(err), __FILE__, __LINE__);err = glGetError();}}
@@ -122,10 +122,8 @@ long double local_time;
      * safe. Under Win32, ChangeDisplaySettings
      * can change the bpp.
      */
-    width = 800;
-    height = 600;
-//    width = 1280;
-//    height = 768;
+    width = DISPLAY_W;
+    height = DISPLAY_H;
     bpp = info->vfmt->BitsPerPixel;
 
     /*

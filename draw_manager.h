@@ -1,6 +1,9 @@
 #ifndef DRAW_MANAGER_H
 #define DRAW_MANAGER_H
 
+#define DISPLAY_W 800
+#define DISPLAY_H 600
+
 #include "draw_state.h"
 
 void draw_manager_start( void );

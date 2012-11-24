@@ -60,7 +60,32 @@ switch( keysym->sym )
 	}
 }
 
-static void process_events( void )
+static float mouse_x;
+static float mouse_y;
+
+static void handle_mouse_down( game_state & gstate, SDL_MouseButtonEvent * event )
+{
+position target;
+target.x = mouse_x;
+target.y = mouse_y;
+
+static long double last_bullet_time = get_time();
+
+const position gun( GRID_W / 2, 0 );
+if( get_time() - last_bullet_time > .1 )
+	{
+	gstate.spawn_bullet( gun, target );
+	last_bullet_time = get_time();
+	}
+}
+
+static void handle_mouse_move( SDL_MouseMotionEvent * event )
+{
+mouse_x = GRID_W - ((float)event->x*GRID_W)/DISPLAY_W;
+mouse_y = GRID_H - ((float)event->y*GRID_H)/DISPLAY_H;
+}
+
+static void process_events( game_state & gstate )
 {
 /* Our SDL event placeholder. */
 SDL_Event event;
@@ -70,6 +95,14 @@ while( SDL_PollEvent( &event ) )
 	{
 	switch( event.type )
 		{
+		case SDL_MOUSEBUTTONDOWN:
+			handle_mouse_down( gstate, &event.button );
+			break;
+
+		case SDL_MOUSEMOTION:
+			handle_mouse_move( &event.motion );
+			break;
+
 		case SDL_KEYUP:
 			handle_key_up( &event.key.keysym );
 			break;
@@ -97,7 +130,6 @@ int main( void )
 	game_state gstate;
 
 	position p;
-	const position g( GRID_W / 2, 0 );
 
 	fps_filter fps;
 
@@ -107,14 +139,7 @@ int main( void )
 		p.x=rand()%GRID_W;
 		p.y = GRID_H-(rand()%(GRID_H/2) );
 
-		process_events();//Process incoming events.
-
-		static long double last_bullet_time = get_time();
-		if( get_time() - last_bullet_time > .1 )
-			{
-			gstate.spawn_bullet( g, p );
-			last_bullet_time = get_time();
-			}
+		process_events( gstate );//Process incoming events.
 
 		static long double last_missile_time = get_time();
 		if( get_time() - last_missile_time > 1.0 )
