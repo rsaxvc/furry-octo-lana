@@ -22,19 +22,19 @@ glBegin( GL_LINES );
 
 for( int y = 0; y <= GRID_H; ++y )
 	{
-	GLfloat v0[] = { -.5f, y - .5f, 0.0f };
+	GLfloat v0[] = { 0.0, (float)y, 0.0f };
 	glVertex3fv( v0 );
 
-	GLfloat v1[] = { GRID_W - .5f, y - .5f, 0.0f };
+	GLfloat v1[] = { GRID_W, (float)y, 0.0f };
 	glVertex3fv( v1 );
 	}
 
 for( int x = 0; x <= GRID_W; ++x )
 	{
-	GLfloat v0[] = { x - .5f, 0 - .5f, 0.0f };
+	GLfloat v0[] = { (float)x, 0.0f, 0.0f };
 	glVertex3fv( v0 );
 
-	GLfloat v1[] = { x - .5f, GRID_H - .5f, 0.0f };
+	GLfloat v1[] = { (float)x, GRID_H, 0.0f };
 	glVertex3fv( v1 );
 	}
 
