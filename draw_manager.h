@@ -2,7 +2,7 @@
 #define DRAW_MANAGER_H
 
 #define DISPLAY_W 800
-#define DISPLAY_H 600
+#define DISPLAY_H 800
 
 #include "draw_state.h"
 

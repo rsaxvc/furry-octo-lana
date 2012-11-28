@@ -179,7 +179,7 @@ long double local_time;
     }
 
 
-setup_opengl( 800, 600 );
+setup_opengl( DISPLAY_W, DISPLAY_H );
 periodic_controller periodic( DRAW_TIMESTEP );
 
 fps_filter fps;
