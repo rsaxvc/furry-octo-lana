@@ -25,14 +25,16 @@ class entity
 
 	public:
 		entity();
-		virtual entity_class getClass()=0;
-		inline const position & getStartPos() { return start_pos; };
-		inline const position & getPos() { return pos; };
-		inline const position & getLastPos() { return last_pos; };
-		inline const velocity & getVel(){ return vel;};
-		virtual float getSpeed();
-		virtual float getTopSpeed()=0;
-        float getHeading(){return heading;};
+		inline const position & getStartPos() const { return start_pos; };
+		inline const position & getPos()      const { return pos; };
+		inline const position & getLastPos()  const { return last_pos; };
+		inline const velocity & getVel()      const { return vel;};
+		inline float getHeading()             const {return heading;};
+
+		        float getSpeed()              const;
+		virtual float getTopSpeed()           const =0;
+		virtual float getRadius()             const =0;
+		virtual entity_class getClass()       const=0;
 
 		virtual void calcState();
 

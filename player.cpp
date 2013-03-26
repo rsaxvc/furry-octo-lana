@@ -13,7 +13,12 @@ vel.dx = 0.0f;
 vel.dy = 0.0f;
 }
 
-float player::getTopSpeed()
+float player::getRadius()const
+{
+return 5;
+}
+
+float player::getTopSpeed()const
 {
 return SPEED;
 }

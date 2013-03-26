@@ -6,6 +6,8 @@
 
 #include <SDL/SDL.h>
 
+#include <X11/Xlib.h>
+
 #include <algorithm>
 #include <deque>
 #include <vector>
@@ -42,24 +44,28 @@ static void handle_key_down( SDL_keysym* keysym, game_state & gstate )
 printf("key\n");
 switch( keysym->sym )
 	{
+	case SDLK_SPACE:
+		gstate.player_fire();
+		break;
+
 	case SDLK_ESCAPE:
 		quit_tutorial( 0 );
 		break;
 
 	case SDLK_UP:
-		gstate.setUp();
+		gstate.player_setUp();
 		break;
 
 	case SDLK_DOWN:
-		gstate.setDown();
+		gstate.player_setDown();
 		break;
 
 	case SDLK_LEFT:
-		gstate.setLeft();
+		gstate.player_setLeft();
 		break;
 
 	case SDLK_RIGHT:
-		gstate.setRight();
+		gstate.player_setRight();
 		break;
 
 	default:
@@ -72,19 +78,19 @@ static void handle_key_up( SDL_keysym* keysym, game_state & gstate )
 switch( keysym->sym )
 	{
 	case SDLK_UP:
-		gstate.setDown();
+		gstate.player_setDown();
 		break;
 
 	case SDLK_DOWN:
-		gstate.setUp();
+		gstate.player_setUp();
 		break;
 
 	case SDLK_LEFT:
-		gstate.setRight();
+		gstate.player_setRight();
 		break;
 
 	case SDLK_RIGHT:
-		gstate.setLeft();
+		gstate.player_setLeft();
 		break;
 
 	default:
@@ -121,6 +127,8 @@ while( SDL_PollEvent( &event ) )
 
 int main( void )
 {
+	XInitThreads();
+
 	draw_manager_start();
 
 	periodic_controller periodic( PHYSICS_TIMESTEP );
@@ -135,13 +143,13 @@ int main( void )
 	//main loop
 	do
 		{
-		p.x=rand()%GRID_W;
-		p.y = GRID_H-(rand()%(GRID_H/2) );
+		p.x = rand()%GRID_W;
+		p.y = rand()%GRID_H;
 
 		process_events( gstate );//Process incoming events.
 
 		static long double last_missile_time = get_time();
-		if( get_time() - last_missile_time > 1.0 )
+		if( get_time() - last_missile_time > 0.1 )
 			{
 			gstate.spawn_tank( p );
 			last_missile_time = get_time();

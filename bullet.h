@@ -8,14 +8,13 @@
 class bullet : public entity
     {
 	private:
-		position pos_start;
-		position pos_end;
+
 	public:
-		bullet( const position & start, const position & end );
+		bullet( const position & start, float heading );
 		virtual ~bullet();
-		bool target_reached();
-		inline entity_class getClass(){return CLASS_BULLET;};
-		float getTopSpeed();
+		inline entity_class getClass()const{return CLASS_BULLET;};
+		float getTopSpeed()const;
+		float getRadius()const;
     };
 
 #endif

@@ -12,8 +12,10 @@ class tank : public entity
 	public:
 		tank(const position & p);
 		virtual ~tank();
-		inline entity_class getClass(){return CLASS_TANK;};
-		float getTopSpeed();
+		inline entity_class getClass()const{return CLASS_TANK;};
+		float getTopSpeed()const;
+		float getRadius()const;
+
 		void calcState( void );
 		void fire();
     };

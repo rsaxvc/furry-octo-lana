@@ -15,7 +15,7 @@ void entity::setVel( const velocity & invel )
 vel = invel;
 }
 
-float entity::getSpeed()
+float entity::getSpeed()const
 {
 return sqrt( vel.dx*vel.dx + vel.dy*vel.dy );
 }
@@ -30,6 +30,7 @@ pos.y += vel.dy * PHYSICS_TIMESTEP;
 if( vel.dx > 0.01f || vel.dx < -0.01f || vel.dy > .01f || vel.dy < -0.01f )
 	{
 	heading = atan2( vel.dy, vel.dx ) - 3.1415/2;
+//	heading = atan2( vel.dx, vel.dy );
 	}
 }
 

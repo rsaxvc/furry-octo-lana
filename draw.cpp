@@ -28,11 +28,11 @@ glBegin( GL_LINES );
 
 position f( state.pos, state.vel, dtime );
 #define LEN .2f
-#define line( _pt1,_pt2 ) glVertex3fv( _pt1 );glVertex3fv( _pt2 )
-GLfloat v0[] = { f.x-LEN, f.y-LEN, 0.0f };
-GLfloat v1[] = { f.x+LEN, f.y+LEN, 0.0f };
-GLfloat v2[] = { f.x-LEN, f.y+LEN, 0.0f };
-GLfloat v3[] = { f.x+LEN, f.y-LEN, 0.0f };
+#define line( _pt1,_pt2 ) glVertex2fv( _pt1 );glVertex2fv( _pt2 )
+GLfloat v0[] = { f.x-LEN, f.y-LEN };
+GLfloat v1[] = { f.x+LEN, f.y+LEN };
+GLfloat v2[] = { f.x-LEN, f.y+LEN };
+GLfloat v3[] = { f.x+LEN, f.y-LEN };
 
 line( v0, v1 );
 line( v1, v2 );
@@ -142,7 +142,7 @@ glError();
 
 static void draw_explosion( const explosion_state & state, float dtime )
 {
-#define line( _pt1,_pt2 ) glVertex3fv( _pt1 );glVertex3fv( _pt2 )
+#define line( _pt1,_pt2 ) glVertex2fv( _pt1 );glVertex2fv( _pt2 )
 float r = state.r + dtime * state.dr;
 float dAng= M_PI/20;
 float spin = dtime * M_PI * 2 / 4;
@@ -157,12 +157,12 @@ for( float ang = 0.0f; ang < M_PI*2 + dAng; ang += dAng )
 		{
 		state.center.x + r * cosf( ang + spin - dAng ),
 		state.center.y + r * sinf( ang + spin - dAng ),
-		0.0f };
+		};
 	GLfloat vedge[] =
 		{
 		state.center.x + r * cosf( ang + spin ),
 		state.center.y + r * sinf( ang + spin ),
-		0.0f };
+		};
 	line( center, vedge );
 	line( vprev, vedge );
 	memcpy( vprev, vedge, sizeof( vprev ) );

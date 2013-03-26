@@ -10,17 +10,17 @@ class explosion : public entity
 	private:
 		long double start_time;
 		float radius;
-		static const float EXPLOSION_SPEED=1.0f;
-		static const float EXPLOSION_LIFETIME=2;
+		static const float EXPLOSION_SPEED=20.0f;
+		static const float EXPLOSION_LIFETIME=1;
 
     public:
 		void calcState( void );
 		explosion( const position & p );
 		virtual ~explosion();
-		inline entity_class getClass(){return CLASS_EXPLOSION;};
-		float getTopSpeed(){return 0.0f;};
-		inline const float & getRadius(){return radius;};
-		inline float getRadiusRate(){return EXPLOSION_SPEED;};
+		inline entity_class getClass()const{return CLASS_EXPLOSION;};
+		float getTopSpeed()const{return 0.0f;};
+		inline float getRadius()const{return radius;};
+		inline float getRadiusRate()const{return EXPLOSION_SPEED;};
 		bool complete( void );
     };
 

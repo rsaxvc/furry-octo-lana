@@ -30,14 +30,14 @@ class game_state
 		void destroy_explosion( size_t idx );
 
 	public:
-		inline void setUp(){p.setUp();};
-		inline void setDown(){p.setDown();};
-		inline void setLeft(){p.setLeft();};
-		inline void setRight(){p.setRight();};
+		inline void player_setUp(){p.setUp();};
+		inline void player_setDown(){p.setDown();};
+		inline void player_setLeft(){p.setLeft();};
+		inline void player_setRight(){p.setRight();};
+		void player_fire();
 
 		void calculate_state( void );
 		void spawn_tank( const position & p );
-		void spawn_bullet( const position & start, const position & end );
 
 		void check_boundaries( void );
 		void check_bullets( void );

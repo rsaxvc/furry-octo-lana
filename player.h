@@ -12,9 +12,10 @@ class player : public entity
 		void setRight( void );
 		void setDown( void );
 
-		inline entity_class getClass(){return CLASS_PLAYER;};
-		float getTopSpeed();
+		inline entity_class getClass()const{return CLASS_PLAYER;};
+		float getTopSpeed()const;
 
+		float getRadius()const;
 	};
 
 #endif

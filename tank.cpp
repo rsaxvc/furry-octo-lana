@@ -15,7 +15,12 @@
 
 #define SPEED 5.0f
 
-float tank::getTopSpeed()
+float tank::getRadius()const
+{
+return 5.0f;
+}
+
+float tank::getTopSpeed()const
 {
 return SPEED;
 }
@@ -37,19 +42,18 @@ tank::~tank()
 
 void tank::calcState()
 {
-int r;
+int r=rand();
 
-r = rand();
-if( r&1 )
+if( rand() < ( RAND_MAX / 10) )
 	{
-	vel.dx = r&2?-SPEED:SPEED;
-	}
-else
-	{
-	vel.dy = r&2?-SPEED:SPEED;
+	float v = r&1?-SPEED:SPEED;
+	if( r&2 )
+		vel.dx = v;
+	else
+		vel.dy = v;
 	}
 
-if( r&4 )
+if( rand() < ( RAND_MAX / 5 ) )
 	{
 	if( r&8 )
 		vel.dx = 0;

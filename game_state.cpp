@@ -1,3 +1,4 @@
+#include "game.h"
 #include "game_state.h"
 
 #include <algorithm>
@@ -91,9 +92,10 @@ entities.push_back( m );
 tanks.push_back( m );
 }
 
-void game_state::spawn_bullet( const position & start, const position & end )
+void game_state::player_fire()
 {
-bullet * b = new bullet( start, end );
+position pos( p.getPos(), p.getVel(), PHYSICS_TIMESTEP );
+bullet * b = new bullet( pos, p.getHeading() );
 entities.push_back( b );
 bullets.push_back( b );
 }
@@ -167,14 +169,24 @@ bullets.erase( bullets.begin() + idx );
 delete ptr;
 }
 
+bool collision( const entity & lhs, const entity & rhs )
+{
+return
+	lhs.getRadius() + rhs.getRadius() > lhs.getPos().dist( rhs.getPos() );
+}
+
 void game_state::check_bullets( void )
 {
-for( size_t i = bullets.size(); i > 0; --i )
+for( size_t b = bullets.size(); b > 0; --b )
 	{
-	if( bullets[i-1]->target_reached() )
+	for( size_t t = tanks.size(); t > 0; --t )
 		{
-		spawn_explosion( bullets[ i - 1 ]->getPos() );
-		destroy_bullet( i - 1 );
+		if( collision( *bullets[b-1], *tanks[t-1] ) )
+			{
+			spawn_explosion( bullets[ b - 1 ]->getPos() );
+			destroy_bullet( b - 1 );
+			break;
+			}
 		}
 	}
 }

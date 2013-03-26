@@ -38,6 +38,7 @@ struct explosion_state
 struct draw_state
 	{
 	unsigned int framestamp;//tick-time
+	tank_state player_tank;
 	std::vector<tank_state> tanks;
 	std::vector<bullet_state> bullets;
 	std::vector<building_state> buildings;

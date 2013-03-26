@@ -13,26 +13,25 @@
 	} \
 }
 
-#define SPEED 1.0
+#define SPEED 55.0
 
-float bullet::getTopSpeed()
+float bullet::getTopSpeed()const
 {
 return SPEED;
 }
 
-bullet::bullet(const position & start, const position & end )
+float bullet::getRadius()const
+{
+return 1.0f;
+}
+
+bullet::bullet(const position & start, float heading )
 {
 start_pos = start;
 pos = start;
 
-vel.dx = cos( atan2( start.y - end.y, start.x - end.x ) ) * SPEED;
-vel.dy = -sin( atan2( start.y - end.y, start.x - end.x ) ) * SPEED;
-pos_end = end;
-}
-
-bool bullet::target_reached( void )
-{
-return start_pos.normalized_dot_product3( pos_end, pos ) > 1.0;
+vel.dx = -sin( heading ) * SPEED;
+vel.dy =  cos( heading ) * SPEED;
 }
 
 bullet::~bullet()
