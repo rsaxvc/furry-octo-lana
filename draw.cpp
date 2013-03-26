@@ -48,20 +48,31 @@ position f( state.pos, state.vel, dtime );
 
 #define LEN .4f
 #define line( _pt1,_pt2 ) glVertex3fv( _pt1 );glVertex3fv( _pt2 )
-GLfloat v0[] = { f.x-LEN, f.y-LEN, 0.0f };
-GLfloat v1[] = { f.x+LEN, f.y+LEN, 0.0f };
-GLfloat v2[] = { f.x-LEN, f.y+LEN, 0.0f };
-GLfloat v3[] = { f.x+LEN, f.y-LEN, 0.0f };
+
+GLfloat v0[] = { f.x+LEN, f.y+LEN, f.z+LEN };
+GLfloat v1[] = { f.x-LEN, f.y+LEN, f.z+LEN };
+GLfloat v2[] = { f.x-LEN, f.y-LEN, f.z+LEN };
+GLfloat v3[] = { f.x+LEN, f.y-LEN, f.z+LEN };
+
+GLfloat v4[] = { f.x+LEN, f.y+LEN, f.z-LEN };
+GLfloat v5[] = { f.x-LEN, f.y+LEN, f.z-LEN };
+GLfloat v6[] = { f.x-LEN, f.y-LEN, f.z-LEN };
+GLfloat v7[] = { f.x+LEN, f.y-LEN, f.z-LEN };
 
 line( v0, v1 );
 line( v1, v2 );
 line( v2, v3 );
 line( v3, v0 );
 
-GLfloat v4[] = {  f.x,  f.y, 0.0f };
+line( v4, v5 );
+line( v5, v6 );
+line( v6, v7 );
+line( v7, v4 );
 
-GLfloat v6[] = { state.start_pos.x, state.start_pos.y, 0.0f };
-line( v4, v6 );
+line( v0, v4 );
+line( v1, v5 );
+line( v2, v6 );
+line( v3, v7 );
 
 #undef LEN
 #undef line
@@ -96,38 +107,12 @@ for( float ang = 0.0f; ang < M_PI*2 + dAng; ang += dAng )
 #undef line
 }
 
-static void draw_building( const building_state & state )
-{
-float bottom = state.bottom_left.y;
-float left = state.bottom_left.x;
-float right = state.top_right.x;
-float top = bottom + ( state.top_right.y - bottom ) * state.health / 100.0f;
-
-#define line( _pt1,_pt2 ) glVertex3fv( _pt1 );glVertex3fv( _pt2 )
-GLfloat v0[] = { top, left, 0.0f };
-GLfloat v1[] = { top, right, 0.0f };
-GLfloat v2[] = { bottom, right, 0.0f };
-GLfloat v3[] = { bottom, left, 0.0f };
-
-line( v0, v1 );
-line( v1, v2 );
-line( v2, v3 );
-line( v3, v0 );
-
-#undef line
-}
-
 void draw( const draw_state & state, double dtime )
 {
 glPushMatrix();
 glError();
 
 glBegin( GL_LINES );
-
-for( size_t i = 0; i < state.buildings.size(); ++i )
-	{
-	draw_building( state.buildings[ i ] );
-	}
 
 for( size_t i = 0; i < state.missiles.size(); ++i )
 	{

@@ -27,8 +27,6 @@ class game_state
 		void destroy_bullet( size_t idx );
 		void destroy_explosion( size_t idx );
 
-//		std::vector<building*> buildings;
-
 	public:
 		void calculate_state( void );
 		void spawn_missile( const position & p );

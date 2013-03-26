@@ -15,9 +15,6 @@
 
 void grid_draw()
 {
-glPushMatrix();
-glError();
-
 glBegin( GL_LINES );
 
 for( int y = 0; y <= GRID_H; ++y )
@@ -39,8 +36,5 @@ for( int x = 0; x <= GRID_W; ++x )
 	}
 
 glEnd();
-glError();
-
-glPopMatrix();
 glError();
 }
