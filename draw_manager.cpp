@@ -191,7 +191,7 @@ do
 	SDL_mutexV( lock );
 	draw_screen( local_state, get_time() - local_time );
 	fps.record_event();
-	printf("draw:%f FPS\n", (double)fps.read() );
+//	printf("draw:%f FPS\n", (double)fps.read() );
 	}while( !stop_running && periodic.wait() );
 
 

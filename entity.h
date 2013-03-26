@@ -6,9 +6,10 @@
 
 enum entity_class
 	{
-	CLASS_MISSILE,
+	CLASS_TANK,
 	CLASS_BULLET,
 	CLASS_EXPLOSION,
+	CLASS_PLAYER,
 	CLASS_CNT
 	};
 

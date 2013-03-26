@@ -3,7 +3,6 @@
 #include <cassert>
 #include <cstdio>
 #include <cstdlib>
-#include <ctime>
 
 #include <SDL/SDL.h>
 
@@ -19,7 +18,7 @@
 #include "periodic_controller.h"
 
 #include "bullet.h"
-#include "missile.h"
+#include "tank.h"
 
 #include "draw_manager.h"
 #include "draw_state.h"
@@ -38,51 +37,43 @@ void quit_tutorial( int code )
     exit( code );
 }
 
-static void handle_key_down( SDL_keysym* keysym )
+static void handle_key_down( SDL_keysym* keysym, game_state & gstate )
 {
+printf("key\n");
 switch( keysym->sym )
 	{
 	case SDLK_ESCAPE:
 		quit_tutorial( 0 );
 		break;
 
+	case SDLK_UP:
+		gstate.setUp();
+		break;
+
+	case SDLK_DOWN:
+		gstate.setDown();
+		break;
+
+	case SDLK_LEFT:
+		gstate.setLeft();
+		break;
+
+	case SDLK_RIGHT:
+		gstate.setRight();
+		break;
+
 	default:
 		break;
 	}
 }
 
-static void handle_key_up( SDL_keysym* keysym )
+static void handle_key_up( SDL_keysym* keysym, game_state & )
 {
 switch( keysym->sym )
 	{
 	default:
 		break;
 	}
-}
-
-static float mouse_x;
-static float mouse_y;
-
-static void handle_mouse_down( game_state & gstate, SDL_MouseButtonEvent * event )
-{
-position target;
-target.x = mouse_x;
-target.y = mouse_y;
-
-static long double last_bullet_time = get_time();
-
-static const position gun( GRID_W / 2, 0 );
-if( get_time() - last_bullet_time > .1 )
-	{
-	gstate.spawn_bullet( gun, target );
-	last_bullet_time = get_time();
-	}
-}
-
-static void handle_mouse_move( SDL_MouseMotionEvent * event )
-{
-mouse_x = GRID_W - ((float)event->x*GRID_W)/DISPLAY_W;
-mouse_y = GRID_H - ((float)event->y*GRID_H)/DISPLAY_H;
 }
 
 static void process_events( game_state & gstate )
@@ -95,21 +86,13 @@ while( SDL_PollEvent( &event ) )
 	{
 	switch( event.type )
 		{
-		case SDL_MOUSEBUTTONDOWN:
-			handle_mouse_down( gstate, &event.button );
-			break;
-
-		case SDL_MOUSEMOTION:
-			handle_mouse_move( &event.motion );
-			break;
-
 		case SDL_KEYUP:
-			handle_key_up( &event.key.keysym );
+			handle_key_up( &event.key.keysym, gstate );
 			break;
 
 		case SDL_KEYDOWN:
 			/* Handle key presses. */
-			handle_key_down( &event.key.keysym );
+			handle_key_down( &event.key.keysym, gstate );
 			break;
 
 		case SDL_QUIT:
@@ -144,7 +127,7 @@ int main( void )
 		static long double last_missile_time = get_time();
 		if( get_time() - last_missile_time > 1.0 )
 			{
-			gstate.spawn_missile( p );
+			gstate.spawn_tank( p );
 			last_missile_time = get_time();
 			}
 

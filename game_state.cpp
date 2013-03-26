@@ -6,7 +6,7 @@
 #include "position.h"
 
 #include "entity.h"
-#include "missile.h"
+#include "tank.h"
 #include "bullet.h"
 #include "explosion.h"
 
@@ -18,6 +18,7 @@ for( size_t i = 0; i < entities.size(); ++i )
     {
     entities[i]->calcState();
     }
+p.calcState();
 }
 
 void game_state::build_draw( draw_state & state )
@@ -34,14 +35,21 @@ for( size_t i = 0; i < bullets.size(); ++i )
 	state.bullets.push_back(s);
 	}
 
-for( size_t i = 0; i < missiles.size(); ++i )
+for( size_t i = 0; i < tanks.size(); ++i )
 	{
-	missile_state s;
-	s.start_pos = missiles[i]->getStartPos();
-	s.pos = missiles[i]->getPos();
-	s.vel = missiles[i]->getVel();
-	state.missiles.push_back(s);
+	tank_state s;
+	s.start_pos = tanks[i]->getStartPos();
+	s.pos = tanks[i]->getPos();
+	s.vel = tanks[i]->getVel();
+	state.tanks.push_back(s);
 	}
+
+//add player tank
+tank_state s;
+s.start_pos = p.getStartPos();
+s.pos = p.getPos();
+s.vel = p.getVel();
+state.tanks.push_back(s);
 
 for( size_t i = 0; i < explosions.size(); ++i )
 	{
@@ -58,9 +66,9 @@ framecount++;
 
 game_state::~game_state()
 {
-while( missiles.size() > 0 )
+while( tanks.size() > 0 )
 	{
-	destroy_missile( missiles.size() - 1 );
+	destroy_tank( tanks.size() - 1 );
 	}
 
 while( bullets.size() > 0 )
@@ -74,11 +82,11 @@ while( explosions.size() > 0 )
 	}
 }
 
-void game_state::spawn_missile( const position & p )
+void game_state::spawn_tank( const position & p )
 {
-missile* m = new missile( p );
+tank* m = new tank( p );
 entities.push_back( m );
-missiles.push_back( m );
+tanks.push_back( m );
 }
 
 void game_state::spawn_bullet( const position & start, const position & end )
@@ -100,22 +108,22 @@ static bool check_boundary( const position & pos )
 return pos.x < 0 || pos.y < 0 || pos.x > GRID_W || pos.y > GRID_H;
 }
 
-void game_state::destroy_missile( size_t idx )
+void game_state::destroy_tank( size_t idx )
 {
-missile * ptr;
-ptr = missiles[idx];
+tank * ptr;
+ptr = tanks[idx];
 entities.erase( std::find( entities.begin(), entities.end(), ptr ) );
-missiles.erase( missiles.begin() + idx );
+tanks.erase( tanks.begin() + idx );
 delete ptr;
 }
 
 void game_state::check_boundaries( void )
 {
-for( size_t i = missiles.size(); i > 0; --i )
+for( size_t i = tanks.size(); i > 0; --i )
 	{
-	if( check_boundary( missiles[ i - 1 ]->getPos() ) )
+	if( check_boundary( tanks[ i - 1 ]->getPos() ) )
 		{
-		destroy_missile( i - 1 );
+		destroy_tank( i - 1 );
 		}
 	}
 
@@ -175,12 +183,12 @@ for( size_t i = explosions.size(); i > 0; --i )
 	{
 	position explosion_pos = explosions[i-1]->getPos();
 	float explosion_radius = explosions[i-1]->getRadius();
-	for( size_t j = missiles.size(); j > 0; --j )
+	for( size_t j = tanks.size(); j > 0; --j )
 		{
-		if( explosion_pos.dist( missiles[ j - 1 ]->getPos() ) < explosion_radius )
+		if( explosion_pos.dist( tanks[ j - 1 ]->getPos() ) < explosion_radius )
 			{
-			spawn_explosion( missiles[ j - 1 ]->getPos() );
-			destroy_missile( j - 1 );
+			spawn_explosion( tanks[ j - 1 ]->getPos() );
+			destroy_tank( j - 1 );
 			}
 		}
 	}

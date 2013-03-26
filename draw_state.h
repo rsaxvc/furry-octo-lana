@@ -5,7 +5,7 @@
 #include "velocity.h"
 #include <vector>
 
-struct missile_state
+struct tank_state
 	{
 	position start_pos;
 	position pos;
@@ -36,13 +36,13 @@ struct explosion_state
 struct draw_state
 	{
 	unsigned int framestamp;//tick-time
-	std::vector<missile_state> missiles;
+	std::vector<tank_state> tanks;
 	std::vector<bullet_state> bullets;
 	std::vector<building_state> buildings;
 	std::vector<explosion_state> explosions;
 	void clear()
 		{
-		missiles.clear();
+		tanks.clear();
 		bullets.clear();
 		buildings.clear();
 		explosions.clear();

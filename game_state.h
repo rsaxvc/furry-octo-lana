@@ -7,8 +7,9 @@
 
 #include "entity.h"
 #include "bullet.h"
-#include "missile.h"
+#include "tank.h"
 #include "explosion.h"
+#include "player.h"
 
 #include "grid.h"
 
@@ -17,19 +18,25 @@
 class game_state
 	{
 	private:
+		player				p;
 		void spawn_explosion( const position & p );
 		std::vector<entity*> entities;
 		std::vector<bullet*> bullets;
-		std::vector<missile*> missiles;
+		std::vector<tank*> tanks;
 		std::vector<explosion*> explosions;
 
-		void destroy_missile( size_t idx );
+		void destroy_tank( size_t idx );
 		void destroy_bullet( size_t idx );
 		void destroy_explosion( size_t idx );
 
 	public:
+		inline void setUp(){p.setUp();};
+		inline void setDown(){p.setDown();};
+		inline void setLeft(){p.setLeft();};
+		inline void setRight(){p.setRight();};
+
 		void calculate_state( void );
-		void spawn_missile( const position & p );
+		void spawn_tank( const position & p );
 		void spawn_bullet( const position & start, const position & end );
 
 		void check_boundaries( void );
@@ -42,7 +49,7 @@ class game_state
 		void build_draw( draw_state & state );
 
 		size_t num_bullets( void ){return bullets.size();};
-		size_t num_missiles( void ){return missiles.size();};
+		size_t num_tanks( void ){return tanks.size();};
 
 	};
 #endif

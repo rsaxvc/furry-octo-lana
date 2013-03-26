@@ -3,16 +3,17 @@ LFLAGS  = -lSDL -lGL -lGLU
 CFLAGS  = -O2 -g -Wall -Wextra
 CPPFLAGS=$(CFLAGS)
 SOURCES=`ls *.cpp`
-BUILDS=missile
+BUILDS=tank
 
-all: .depend missile
+all: .depend tank
 
 .depend:
 	fastdep $(SOURCES) > .depend
 
 -include .depend
 
-missile:\
+tank:\
+	player.o\
 	draw_manager.o\
 	explosion.o\
 	game_state.o\
@@ -20,7 +21,7 @@ missile:\
 	draw.o\
 	grid.o\
 	bullet.o\
-	missile.o\
+	tank.o\
 	entity.o\
 	main.o\
 	time.o\

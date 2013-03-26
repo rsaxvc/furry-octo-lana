@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <cstdlib>
 
-#include "missile.h"
+#include "tank.h"
 #include "game.h"
 
 #define glError() { \
@@ -15,12 +15,12 @@
 
 #define SPEED 1
 
-float missile::getTopSpeed()
+float tank::getTopSpeed()
 {
 return SPEED;
 }
 
-missile::missile(const position & p)
+tank::tank(const position & p)
 {
 vel.dx = (float)(rand()%5)/5 - .5;
 vel.dy = -.5;
@@ -29,6 +29,27 @@ start_pos = p;
 pos = p;
 }
 
-missile::~missile()
+tank::~tank()
 {
+}
+
+void tank::calcState()
+{
+int r;
+last_pos = pos;
+
+pos.x += vel.dx * PHYSICS_TIMESTEP;
+pos.y += vel.dy * PHYSICS_TIMESTEP;
+
+r = rand();
+if( r&1 )
+	{
+	vel.dx = r&2?-1:1;
+	vel.dy = 0;
+	}
+else
+	{
+	vel.dx = 0;
+	vel.dy = r&2?-1:1;
+	}
 }

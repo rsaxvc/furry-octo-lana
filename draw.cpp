@@ -42,7 +42,7 @@ line( v4, v6 );
 }
 
 
-static void draw_missile( const missile_state & state, double dtime )
+static void draw_tank( const tank_state & state, double dtime )
 {
 position f( state.pos, state.vel, dtime );
 
@@ -114,9 +114,9 @@ glError();
 
 glBegin( GL_LINES );
 
-for( size_t i = 0; i < state.missiles.size(); ++i )
+for( size_t i = 0; i < state.tanks.size(); ++i )
 	{
-	draw_missile( state.missiles[i], dtime );
+	draw_tank( state.tanks[i], dtime );
 	}
 
 for( size_t i = 0; i < state.bullets.size(); ++i )
