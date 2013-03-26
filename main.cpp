@@ -67,10 +67,26 @@ switch( keysym->sym )
 	}
 }
 
-static void handle_key_up( SDL_keysym* keysym, game_state & )
+static void handle_key_up( SDL_keysym* keysym, game_state & gstate )
 {
 switch( keysym->sym )
 	{
+	case SDLK_UP:
+		gstate.setDown();
+		break;
+
+	case SDLK_DOWN:
+		gstate.setUp();
+		break;
+
+	case SDLK_LEFT:
+		gstate.setRight();
+		break;
+
+	case SDLK_RIGHT:
+		gstate.setLeft();
+		break;
+
 	default:
 		break;
 	}

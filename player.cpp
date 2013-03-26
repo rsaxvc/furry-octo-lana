@@ -1,6 +1,8 @@
 #include "player.h"
 #include "grid.h"
 
+#define SPEED 15.0f
+
 player::player()
 {
 pos.x = GRID_W / 2;
@@ -13,30 +15,26 @@ vel.dy = 0.0f;
 
 float player::getTopSpeed()
 {
-return 1.0f;
+return SPEED;
 }
 
 void player::setUp( void )
 {
-vel.dx = 0;
-vel.dy = 1;
+vel.dy += SPEED;
 }
 
 void player::setLeft( void )
 {
-vel.dx = -1;
-vel.dy = 0;
+vel.dx -= SPEED;
 }
 
 void player::setRight( void )
 {
-vel.dx = 1;
-vel.dy = 0;
+vel.dx += SPEED;
 }
 
 void player::setDown( void )
 {
-vel.dx = 0;
-vel.dy = -1;
+vel.dy -= SPEED;
 }
 

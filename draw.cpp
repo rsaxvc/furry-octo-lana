@@ -10,16 +10,22 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-#define glError() { \
-    GLenum err = glGetError(); \
-    while (err != GL_NO_ERROR) { \
-        fprintf(stderr, "glError: %s caught at %s:%u\n", (char *)gluErrorString(err), __FILE__, __LINE__); \
-        err = glGetError(); \
-    } \
+static inline void glError2( const char * filename, int line )
+{
+GLenum err = glGetError();
+while (err != GL_NO_ERROR)
+	{
+	fprintf(stderr, "glError: %s caught at %s:%u\n", (char *)gluErrorString(err), filename, line);
+	err = glGetError();
+    }
 }
+
+#define glError() glError2( __FILE__, __LINE__ )
 
 static void draw_bullet( const bullet_state & state, double dtime )
 {
+glBegin( GL_LINES );
+
 position f( state.pos, state.vel, dtime );
 #define LEN .2f
 #define line( _pt1,_pt2 ) glVertex3fv( _pt1 );glVertex3fv( _pt2 )
@@ -39,43 +45,91 @@ line( v4, v6 );
 
 #undef LEN
 #undef line
+
+glEnd();
 }
 
 
-static void draw_tank( const tank_state & state, double dtime )
+void draw_tank( const tank_state & tank, double dtime )
 {
-position f( state.pos, state.vel, dtime );
+static const GLfloat tank_width = 8.0f;
+static const GLfloat tank_height = 10.0f;
+static const GLfloat tread_width = 1.0f;
 
-#define LEN .4f
-#define line( _pt1,_pt2 ) glVertex3fv( _pt1 );glVertex3fv( _pt2 )
+static const GLfloat tread_height = 1.0f;//thickness of a single tread
+GLfloat tread_iter;
 
-GLfloat v0[] = { f.x+LEN, f.y+LEN, f.z+LEN };
-GLfloat v1[] = { f.x-LEN, f.y+LEN, f.z+LEN };
-GLfloat v2[] = { f.x-LEN, f.y-LEN, f.z+LEN };
-GLfloat v3[] = { f.x+LEN, f.y-LEN, f.z+LEN };
+glPushMatrix();
+glError();
 
-GLfloat v4[] = { f.x+LEN, f.y+LEN, f.z-LEN };
-GLfloat v5[] = { f.x-LEN, f.y+LEN, f.z-LEN };
-GLfloat v6[] = { f.x-LEN, f.y-LEN, f.z-LEN };
-GLfloat v7[] = { f.x+LEN, f.y-LEN, f.z-LEN };
+glLineWidth( 1.0f );
+glError();
 
-line( v0, v1 );
-line( v1, v2 );
-line( v2, v3 );
-line( v3, v0 );
+glRotatef( 180 * tank.heading / 3.1415, 0.0f, 0.0f, 1.0f );
 
-line( v4, v5 );
-line( v5, v6 );
-line( v6, v7 );
-line( v7, v4 );
+glTranslatef( tank.pos.x, tank.pos.y, 0.0f );
+glError();
 
-line( v0, v4 );
-line( v1, v5 );
-line( v2, v6 );
-line( v3, v7 );
+glBegin( GL_LINES );
 
-#undef LEN
-#undef line
+	glVertex2f(  0.0f,  0.0f );
+	glVertex2f(  0.0f,  tank_height );
+
+	glVertex2f(  tread_width,  0.0f );
+	glVertex2f(  tread_width,  tank_height );
+
+	glVertex2f( tank_width, 0.0f );
+	glVertex2f( tank_width, tank_height );
+
+	glVertex2f( tank_width -tread_width, 0.0f );
+	glVertex2f( tank_width -tread_width, tank_height );
+
+	//top and bottom edges
+	glVertex2f( 0.0f, 0.0f );
+	glVertex2f( tank_width, 0.0f );
+
+	glVertex2f( 0.0f, tank_height );
+	glVertex2f( tank_width, tank_height );
+
+	//draw treads
+	for( tread_iter = 0.0f; tread_iter < tank_height; tread_iter += tread_height )
+		{
+		glVertex2f( 0.0f, tread_iter );
+		glVertex2f( tread_width, tread_iter );
+
+		glVertex2f( tank_width, tread_iter );
+		glVertex2f( tank_width-tread_width, tread_iter );
+		}
+
+	//turret
+	glVertex2f( 2.0f, 2.0f );
+	glVertex2f( 2.0f, 8.0f );
+
+	glVertex2f( 2.0f, 8.0f );
+	glVertex2f( 6.0f, 8.0f );
+
+	glVertex2f( 6.0f, 8.0f );
+	glVertex2f( 6.0f, 2.0f );
+
+	glVertex2f( 6.0f, 2.0f );
+	glVertex2f( 2.0f, 2.0f );
+
+	//barrel
+	glVertex2f( 3.5f,  8.0f );
+	glVertex2f( 3.5f, 11.0f );
+
+	glVertex2f( 4.5f,  8.0f );
+	glVertex2f( 4.5f, 11.0f );
+
+	glVertex2f( 3.5f, 11.0f );
+	glVertex2f( 4.5f, 11.0f );
+
+glEnd();
+glError();
+
+glPopMatrix();
+glError();
+
 }
 
 static void draw_explosion( const explosion_state & state, float dtime )
@@ -107,12 +161,33 @@ for( float ang = 0.0f; ang < M_PI*2 + dAng; ang += dAng )
 #undef line
 }
 
+void draw_lines( const draw_state & state, double dtime )
+{
+GLfloat fSizes[2];
+GLfloat fCurrSize;
+
+glGetFloatv( GL_LINE_WIDTH_RANGE, fSizes );
+
+fCurrSize = fSizes[0];
+for( GLfloat y = -90.0f; y < 90.0f; y+=20.0f )
+	{
+	glLineWidth( fCurrSize );
+
+	glBegin( GL_LINES );
+
+		glVertex2f( -80.0f, y );
+		glVertex2f( 80.0f, y );
+
+	glEnd();
+	glError();
+	fCurrSize += 1.0f;
+	}
+}
+
 void draw( const draw_state & state, double dtime )
 {
 glPushMatrix();
 glError();
-
-glBegin( GL_LINES );
 
 for( size_t i = 0; i < state.tanks.size(); ++i )
 	{
@@ -129,10 +204,6 @@ for( size_t i = 0; i < state.explosions.size(); ++i )
 	draw_explosion( state.explosions[i], dtime );
 	}
 
-glEnd();
-glError();
-
 glPopMatrix();
 glError();
 }
-

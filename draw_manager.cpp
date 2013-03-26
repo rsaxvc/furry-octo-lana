@@ -33,7 +33,6 @@ glError();
 /* Move down the z-axis. */
 glTranslatef( -GRID_W/2, -GRID_H/2, -15.0 ); glError();
 
-grid_draw();
 draw( state, time );
 
 /*
@@ -70,11 +69,8 @@ glViewport( 0, 0, width, height );
 glMatrixMode( GL_PROJECTION );
 glLoadIdentity( );
 
-/*
- * EXERCISE:
- * Replace this with a call to glFrustum.
- */
-gluPerspective( 60.0, ratio, 1.0, 1024.0 );
+//gluPerspective( 60.0, ratio, 1.0, 1024.0 );
+glOrtho(-100.0, 100.0, -100.0, 100.0, -100.0, 100.0 );
 }
 
 draw_state   state;

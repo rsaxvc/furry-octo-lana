@@ -41,6 +41,7 @@ for( size_t i = 0; i < tanks.size(); ++i )
 	s.start_pos = tanks[i]->getStartPos();
 	s.pos = tanks[i]->getPos();
 	s.vel = tanks[i]->getVel();
+	s.heading = tanks[i]->getHeading();
 	state.tanks.push_back(s);
 	}
 

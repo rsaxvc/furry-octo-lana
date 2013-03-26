@@ -10,6 +10,7 @@ struct tank_state
 	position start_pos;
 	position pos;
 	velocity vel;
+	float heading;
 	};
 
 struct bullet_state
