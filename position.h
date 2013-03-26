@@ -10,7 +10,6 @@ struct position
 	{
 	float x;
 	float y;
-	float z;
 	inline bool operator==(const position & p2 )const{ return x==p2.x && y == p2.y; }
 	inline float dist( const position & pos )const{ return sqrt( (float)(x-pos.x)*(x-pos.x)+(y-pos.y)*(y-pos.y) ); }
 	inline float tdist( const position & pos )const{ return fabs(x-pos.x)+fabs(y-pos.y); }
