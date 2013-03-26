@@ -7,15 +7,16 @@
 
 struct tank_state
 	{
-	position start_pos;
+	position last_pos;
 	position pos;
 	velocity vel;
 	float heading;
+	float move_cycles;
 	};
 
 struct bullet_state
 	{
-	position start_pos;
+	position last_pos;
 	position pos;
 	velocity vel;
 	};

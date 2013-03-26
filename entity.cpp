@@ -5,6 +5,11 @@
 #include "velocity.h"
 #include "position.h"
 
+entity::entity()
+{
+heading = 0.0f;
+}
+
 void entity::setVel( const velocity & invel )
 {
 vel = invel;
@@ -21,5 +26,10 @@ last_pos = pos;
 
 pos.x += vel.dx * PHYSICS_TIMESTEP;
 pos.y += vel.dy * PHYSICS_TIMESTEP;
+
+if( vel.dx > 0.01f || vel.dx < -0.01f || vel.dy > .01f || vel.dy < -0.01f )
+	{
+	heading = atan2( vel.dy, vel.dx ) - 3.1415/2;
+	}
 }
 

@@ -1,7 +1,7 @@
 #include "player.h"
 #include "grid.h"
 
-#define SPEED 15.0f
+#define SPEED 25.0f
 
 player::player()
 {

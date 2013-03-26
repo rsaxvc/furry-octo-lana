@@ -40,7 +40,7 @@ line( v2, v3 );
 line( v3, v0 );
 
 GLfloat v4[] = {  f.x,  f.y, 0.0f };
-GLfloat v6[] = { state.start_pos.x, state.start_pos.y, 0.0f };
+GLfloat v6[] = { state.last_pos.x, state.last_pos.y, 0.0f };
 line( v4, v6 );
 
 #undef LEN
@@ -48,7 +48,6 @@ line( v4, v6 );
 
 glEnd();
 }
-
 
 void draw_tank( const tank_state & tank, double dtime )
 {
@@ -59,70 +58,79 @@ static const GLfloat tread_width = 1.0f;
 static const GLfloat tread_height = 1.0f;//thickness of a single tread
 GLfloat tread_iter;
 
+position f( tank.last_pos, tank.vel, dtime );
+
 glPushMatrix();
 glError();
 
 glLineWidth( 1.0f );
 glError();
 
-glRotatef( 180 * tank.heading / 3.1415, 0.0f, 0.0f, 1.0f );
+glTranslatef( f.x, f.y, 0.0f );
+glError();
 
-glTranslatef( tank.pos.x, tank.pos.y, 0.0f );
+glRotatef( 180 * tank.heading / 3.1415, 0.0f, 0.0f, 1.0f );
 glError();
 
 glBegin( GL_LINES );
 
-	glVertex2f(  0.0f,  0.0f );
-	glVertex2f(  0.0f,  tank_height );
+	glVertex2f(  -tank_width/2,  -tank_height/2 );
+	glVertex2f(  -tank_width/2,  tank_height/2 );
 
-	glVertex2f(  tread_width,  0.0f );
-	glVertex2f(  tread_width,  tank_height );
+	glVertex2f(  -tank_width/2+tread_width,  -tank_height/2 );
+	glVertex2f(  -tank_width/2+tread_width,  tank_height/2 );
 
-	glVertex2f( tank_width, 0.0f );
-	glVertex2f( tank_width, tank_height );
+	glVertex2f( tank_width/2, -tank_height/2 );
+	glVertex2f( tank_width/2, tank_height/2 );
 
-	glVertex2f( tank_width -tread_width, 0.0f );
-	glVertex2f( tank_width -tread_width, tank_height );
+	glVertex2f( tank_width/2 -tread_width, -tank_height/2 );
+	glVertex2f( tank_width/2 -tread_width, tank_height/2 );
 
 	//top and bottom edges
-	glVertex2f( 0.0f, 0.0f );
-	glVertex2f( tank_width, 0.0f );
+	glVertex2f( -tank_width/2, -tank_height/2 );
+	glVertex2f( tank_width/2, -tank_height/2 );
 
-	glVertex2f( 0.0f, tank_height );
-	glVertex2f( tank_width, tank_height );
+	glVertex2f( -tank_width/2, tank_height/2 );
+	glVertex2f( tank_width/2, tank_height/2 );
 
 	//draw treads
-	for( tread_iter = 0.0f; tread_iter < tank_height; tread_iter += tread_height )
-		{
-		glVertex2f( 0.0f, tread_iter );
-		glVertex2f( tread_width, tread_iter );
 
-		glVertex2f( tank_width, tread_iter );
-		glVertex2f( tank_width-tread_width, tread_iter );
+	float offset = 0;
+		if ( tank.move_cycles < 1 == 0 )
+		{
+			offset = 1;
+		}
+		for( tread_iter = -tank_height/2; tread_iter < tank_height/2; tread_iter += tread_height )
+		{
+			glVertex2f( -tank_width/2, tread_iter + offset );
+			glVertex2f( -tank_width/2 + tread_width, tread_iter + offset );
+
+			glVertex2f( tank_width/2, tread_iter + offset );
+			glVertex2f( tank_width/2-tread_width, tread_iter + offset );
 		}
 
 	//turret
-	glVertex2f( 2.0f, 2.0f );
-	glVertex2f( 2.0f, 8.0f );
+	glVertex2f( -2.0f, -3.0f );
+	glVertex2f( -2.0f, 3.0f );
 
-	glVertex2f( 2.0f, 8.0f );
-	glVertex2f( 6.0f, 8.0f );
+	glVertex2f( -2.0f, 3.0f );
+	glVertex2f( 2.0f, 3.0f );
 
-	glVertex2f( 6.0f, 8.0f );
-	glVertex2f( 6.0f, 2.0f );
+	glVertex2f( 2.0f, 3.0f );
+	glVertex2f( 2.0f, -3.0f );
 
-	glVertex2f( 6.0f, 2.0f );
-	glVertex2f( 2.0f, 2.0f );
+	glVertex2f( 2.0f, -3.0f );
+	glVertex2f( -2.0f, -3.0f );
 
 	//barrel
-	glVertex2f( 3.5f,  8.0f );
-	glVertex2f( 3.5f, 11.0f );
+	glVertex2f( -.5f, 3.0f );
+	glVertex2f( -.5f, 6.0f );
 
-	glVertex2f( 4.5f,  8.0f );
-	glVertex2f( 4.5f, 11.0f );
+	glVertex2f( .5f, 3.0f );
+	glVertex2f( .5f, 6.0f );
 
-	glVertex2f( 3.5f, 11.0f );
-	glVertex2f( 4.5f, 11.0f );
+	glVertex2f( -.5f, 6.0f );
+	glVertex2f( .5f, 6.0f );
 
 glEnd();
 glError();
@@ -140,6 +148,8 @@ float dAng= M_PI/20;
 float spin = dtime * M_PI * 2 / 4;
 
 GLfloat center[] = { state.center.x, state.center.y, 0.0f };
+
+glBegin( GL_LINES );
 
 for( float ang = 0.0f; ang < M_PI*2 + dAng; ang += dAng )
 	{
@@ -159,6 +169,8 @@ for( float ang = 0.0f; ang < M_PI*2 + dAng; ang += dAng )
 	assert( sizeof( vprev ) == sizeof( vedge ) );
 	}
 #undef line
+
+glEnd();
 }
 
 void draw_lines( const draw_state & state, double dtime )

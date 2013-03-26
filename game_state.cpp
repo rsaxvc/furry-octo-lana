@@ -29,7 +29,7 @@ state.clear();
 for( size_t i = 0; i < bullets.size(); ++i )
 	{
 	bullet_state s;
-	s.start_pos = bullets[i]->getStartPos();
+	s.last_pos = bullets[i]->getLastPos();
 	s.pos = bullets[i]->getPos();
 	s.vel = bullets[i]->getVel();
 	state.bullets.push_back(s);
@@ -38,7 +38,7 @@ for( size_t i = 0; i < bullets.size(); ++i )
 for( size_t i = 0; i < tanks.size(); ++i )
 	{
 	tank_state s;
-	s.start_pos = tanks[i]->getStartPos();
+	s.last_pos = tanks[i]->getLastPos();
 	s.pos = tanks[i]->getPos();
 	s.vel = tanks[i]->getVel();
 	s.heading = tanks[i]->getHeading();
@@ -47,7 +47,8 @@ for( size_t i = 0; i < tanks.size(); ++i )
 
 //add player tank
 tank_state s;
-s.start_pos = p.getStartPos();
+s.last_pos = p.getLastPos();
+s.heading = p.getHeading();
 s.pos = p.getPos();
 s.vel = p.getVel();
 state.tanks.push_back(s);

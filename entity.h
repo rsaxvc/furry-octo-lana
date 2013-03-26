@@ -21,8 +21,10 @@ class entity
 		position last_pos;
 		position pos;
 		velocity vel;
+		float heading;
 
 	public:
+		entity();
 		virtual entity_class getClass()=0;
 		inline const position & getStartPos() { return start_pos; };
 		inline const position & getPos() { return pos; };
@@ -30,6 +32,7 @@ class entity
 		inline const velocity & getVel(){ return vel;};
 		virtual float getSpeed();
 		virtual float getTopSpeed()=0;
+        float getHeading(){return heading;};
 
 		virtual void calcState();
 
