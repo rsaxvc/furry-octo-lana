@@ -75,7 +75,7 @@ draw_state   state;
 long double  state_date;
 SDL_mutex  * lock;
 
-int render_func( void *unused )
+int render_func( void * )
 {
 draw_state local_state;
 long double local_time;
