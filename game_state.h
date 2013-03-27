@@ -29,6 +29,8 @@ class game_state
 		void destroy_bullet( size_t idx );
 		void destroy_explosion( size_t idx );
 
+		bool player_dead;
+
 	public:
 		inline void player_setUp(){p.setUp();};
 		inline void player_setDown(){p.setDown();};
@@ -51,5 +53,7 @@ class game_state
 		size_t num_bullets( void ){return bullets.size();};
 		size_t num_tanks( void ){return tanks.size();};
 
+		bool over();
+		bool player_victory();
 	};
 #endif

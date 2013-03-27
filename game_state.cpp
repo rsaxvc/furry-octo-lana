@@ -13,6 +13,11 @@
 
 #include "grid.h"
 
+bool game_state::over( void )
+{
+return num_tanks()==0;
+}
+
 void game_state::calculate_state( void )
 {
 for( size_t i = 0; i < entities.size(); ++i )

@@ -140,20 +140,18 @@ int main( void )
 
 	fps_filter fps;
 
-	//main loop
-	do
+	for( int i = 0; i < 10; ++i )
 		{
 		p.x = rand()%GRID_W;
 		p.y = rand()%GRID_H;
 
-		process_events( gstate );//Process incoming events.
+		gstate.spawn_tank( p );
+		}
 
-		static long double last_missile_time = get_time();
-		if( get_time() - last_missile_time > 0.1 )
-			{
-			gstate.spawn_tank( p );
-			last_missile_time = get_time();
-			}
+	//main loop
+	do
+		{
+		process_events( gstate );//Process incoming events.
 
 		gstate.check_explosions();
 		gstate.check_collisions();
@@ -168,7 +166,7 @@ int main( void )
 
 		fps.record_event();
 		printf("physics:%f FPS\n", (double)fps.read() );
-		}while( periodic.wait() );
+		}while( periodic.wait() && !gstate.over() );
 
     /*
      * EXERCISE:
