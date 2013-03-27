@@ -94,7 +94,7 @@ tanks.push_back( m );
 
 void game_state::player_fire()
 {
-position pos( p.getPos(), p.getVel(), PHYSICS_TIMESTEP );
+position pos( p.getPos(), p.getHeading(), 2*p.getRadius() );
 bullet * b = new bullet( pos, p.getHeading() );
 entities.push_back( b );
 bullets.push_back( b );

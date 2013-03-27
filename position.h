@@ -24,8 +24,8 @@ struct position
 
 	position( const position & start, float heading, float distance )
 		{
-		x = start.x + cos( heading ) * distance;
-		y = start.y + sin( heading ) * distance;
+		x = start.x - sin( heading ) * distance;
+		y = start.y + cos( heading ) * distance;
 		}
 
 	position( const position & start, const position & end, double interp )

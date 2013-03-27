@@ -27,7 +27,7 @@ static void draw_bullet( const bullet_state & state, double dtime )
 glBegin( GL_LINES );
 
 position f( state.pos, state.vel, dtime );
-#define LEN .2f
+#define LEN 1.5f
 #define line( _pt1,_pt2 ) glVertex2fv( _pt1 );glVertex2fv( _pt2 )
 GLfloat v0[] = { f.x-LEN, f.y-LEN };
 GLfloat v1[] = { f.x+LEN, f.y+LEN };
