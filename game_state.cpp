@@ -184,6 +184,7 @@ for( size_t b = bullets.size(); b > 0; --b )
 		if( collision( *bullets[b-1], *tanks[t-1] ) )
 			{
 			spawn_explosion( bullets[ b - 1 ]->getPos() );
+			destroy_tank( t - 1 );
 			destroy_bullet( b - 1 );
 			break;
 			}
