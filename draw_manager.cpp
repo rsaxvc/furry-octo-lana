@@ -46,8 +46,6 @@ SDL_GL_SwapBuffers( );
 
 static void setup_opengl( int width, int height )
 {
-float ratio = (float) width / (float) height;
-
 /* Our shading model--Gouraud (smooth). */
 //    glShadeModel( GL_LINE_SMOOTH );
 
