@@ -72,6 +72,8 @@ glError();
 glRotatef( 180 * tank.heading / 3.1415, 0.0f, 0.0f, 1.0f );
 glError();
 
+glColor4f(0.0f,1.0f,0.0f,1.0f); //line color
+
 glBegin( GL_LINES );
 
 	glVertex2f(  -tank_width/2,  -tank_height/2 );
@@ -173,7 +175,7 @@ for( float ang = 0.0f; ang < M_PI*2 + dAng; ang += dAng )
 glEnd();
 }
 
-void draw_lines( const draw_state & state, double dtime )
+void draw_lines()
 {
 GLfloat fSizes[2];
 GLfloat fCurrSize;
